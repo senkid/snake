@@ -11,7 +11,6 @@ green = (0, 255, 0)
 blue = (50, 153, 213)
 orange = (255,165,0)
 color_light = (170, 170, 170)
-color_dark = (100, 100, 100)
 
 
 dis_width = 800
@@ -27,8 +26,8 @@ score_font = pygame.font.SysFont("comicsansms", 35) #Укажем шрифт и 
 width = dis.get_width()
 height = dis.get_height()
 smallfont = pygame.font.SysFont('Corbel', 35)
-text = smallfont.render('Выход', True, white)
-text_1 = smallfont.render('Игра', True, white)
+text_quit = smallfont.render('Выход', True, black)
+text_game = smallfont.render('Игра', True, black)
 
 
 def Your_score(score):
@@ -115,16 +114,11 @@ def menuLoop():
     while True:
         mouse = pygame.mouse.get_pos()
         for ev in pygame.event.get():
-
             if ev.type == pygame.QUIT:
                 pygame.quit()
-
-
             if ev.type == pygame.MOUSEBUTTONDOWN:
-
                 if 325 <= mouse[0] <= 325 + 140 and 200 <= mouse[1] <= 200 + 40:
                     gameLoop()
-
                 elif 325 <= mouse[0] <= 325 + 140 and 400 <= mouse[1] <= 400 + 40:
                     pygame.quit()
 
@@ -133,17 +127,11 @@ def menuLoop():
         if 325 <= mouse[0] <= 325 + 140 and 200 <= mouse[1] <= 200 + 40:
             pygame.draw.rect(dis, color_light, [325, 200, 140, 40])
 
-        else:
-            pygame.draw.rect(dis, color_dark, [325, 200, 140, 40])
-
         if 325 <= mouse[0] <= 325 + 140 and 400 <= mouse[1] <= 400 + 40:
             pygame.draw.rect(dis, color_light, [325, 400, 140, 40])
 
-        else:
-            pygame.draw.rect(dis, color_dark, [325, 400, 140, 40])
-
-        dis.blit(text, (350, 400))
-        dis.blit(text_1, (350, 200))
+        dis.blit(text_quit, (350, 400))
+        dis.blit(text_game, (350, 200))
         pygame.display.update()
 
 menuLoop()
