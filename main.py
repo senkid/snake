@@ -1,5 +1,4 @@
 import pygame
-import time
 import random
 
 pygame.init()
@@ -11,6 +10,9 @@ red = (213, 50, 80)
 green = (0, 255, 0)
 blue = (50, 153, 213)
 orange = (255,165,0)
+color_light = (170, 170, 170)
+color_dark = (100, 100, 100)
+
 
 dis_width = 800
 dis_height = 600
@@ -21,6 +23,13 @@ snake_block = 10
 snake_speed = 15
 font_style = pygame.font.SysFont("bahnschrift", 25) #Укажем название шрифта и его размер для системных сообщений, например, при завершении игры.
 score_font = pygame.font.SysFont("comicsansms", 35) #Укажем шрифт и  его размер для отображения счёта.
+
+width = dis.get_width()
+height = dis.get_height()
+smallfont = pygame.font.SysFont('Corbel', 35)
+text = smallfont.render('Выход', True, white)
+text_1 = smallfont.render('Игра', True, white)
+
 
 def Your_score(score):
    value = score_font.render("Ваш счёт: " + str(score), True, yellow)
@@ -33,6 +42,8 @@ def our_snake(snake_block, snake_list):
 def message(msg, color):
    mesg = font_style.render(msg, True, color)
    dis.blit(mesg, [dis_width / 6, dis_height / 3])
+
+
 
 
 def gameLoop():
@@ -49,14 +60,13 @@ def gameLoop():
    while not game_over:
        while game_close == True:
            dis.fill(orange)
-           message("Вы проиграли! Нажмите Q для выхода или C для повторной игры", red)
+           message("Вы проиграли! Нажмите Q для выхода или C для перезапуска", red)
            Your_score(Length_of_snake - 1)
            pygame.display.update()
            for event in pygame.event.get():
                if event.type == pygame.KEYDOWN:
                    if event.key == pygame.K_q:
-                       game_over = True
-                       game_close = False
+                       menuLoop()
                    if event.key == pygame.K_c:
                        gameLoop()
        for event in pygame.event.get():
@@ -101,4 +111,39 @@ def gameLoop():
    pygame.quit()
    quit()
 
-gameLoop()
+def menuLoop():
+    while True:
+        mouse = pygame.mouse.get_pos()
+        for ev in pygame.event.get():
+
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+
+
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+
+                if 325 <= mouse[0] <= 325 + 140 and 200 <= mouse[1] <= 200 + 40:
+                    gameLoop()
+
+                elif 325 <= mouse[0] <= 325 + 140 and 400 <= mouse[1] <= 400 + 40:
+                    pygame.quit()
+
+        dis.fill(yellow)
+
+        if 325 <= mouse[0] <= 325 + 140 and 200 <= mouse[1] <= 200 + 40:
+            pygame.draw.rect(dis, color_light, [325, 200, 140, 40])
+
+        else:
+            pygame.draw.rect(dis, color_dark, [325, 200, 140, 40])
+
+        if 325 <= mouse[0] <= 325 + 140 and 400 <= mouse[1] <= 400 + 40:
+            pygame.draw.rect(dis, color_light, [325, 400, 140, 40])
+
+        else:
+            pygame.draw.rect(dis, color_dark, [325, 400, 140, 40])
+
+        dis.blit(text, (350, 400))
+        dis.blit(text_1, (350, 200))
+        pygame.display.update()
+
+menuLoop()
